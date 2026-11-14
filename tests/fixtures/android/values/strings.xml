@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name" translatable="false">Taskly</string>
+    <string name="welcome">Welcome, <xliff:g id="name">%1$s</xliff:g>!</string>
+    <string name="tagline">Taskly\'s best feature</string>
+    <string name="sync">Last synced %1$s ago</string>
+    <plurals name="tasks">
+        <item quantity="one">%d task</item>
+        <item quantity="other">%d tasks</item>
+    </plurals>
+    <string-array name="days">
+        <item>Sunday</item>
+        <item>Monday</item>
+    </string-array>
+</resources>

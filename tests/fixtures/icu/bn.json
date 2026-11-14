@@ -1,0 +1,9 @@
+{
+  "cart": "আপনার কার্টে {count, plural, one {#টি আইটেম} other {#টি আইটেম}} আছে",
+  "cartWords": "{count, plural, one {{name}-এর একটি আইটেম আছে} other {{name}-এর {count}টি আইটেম আছে}}",
+  "invite": "{gender, select, male {উনি আপনাকে আমন্ত্রণ জানিয়েছেন} female {উনি আপনাকে আমন্ত্রণ জানিয়েছেন} other {ওনারা আপনাকে আমন্ত্রণ জানিয়েছেন}}",
+  "badKeys": "{count, plural, এক {#টি ফাইল} other {#টি ফাইল}}",
+  "noOther": "{count, plural, one {#টি ছবি}}",
+  "selectKeys": "{role, select, অ্যাডমিন {অ্যাডমিন প্যানেল} other {ড্যাশবোর্ড}}",
+  "renamedArg": "{সংখ্যা, plural, one {আর #দিন বাকি} other {আর #দিন বাকি}}"
+}

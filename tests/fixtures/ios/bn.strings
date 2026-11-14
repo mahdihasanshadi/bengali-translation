@@ -1,0 +1,6 @@
+/* Login screen */
+"login.title" = "লগইন করুন";
+"login.forgot" = "পাসওয়ার্ড ভুলে গেছেন?";
+// greeting with a name
+"home.greeting" = "হ্যালো, %@!";
+"help.url" = "সাহায্যের জন্য "https://example.com/help" দেখুন";

@@ -1,0 +1,6 @@
+/* Login screen */
+"login.title" = "Sign in";
+"login.forgot" = "Forgot password?";
+// greeting with a name
+"home.greeting" = "Hello, %@!";
+"help.url" = "See https://example.com/help for help";

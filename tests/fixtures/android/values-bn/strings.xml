@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="welcome">স্বাগতম, <xliff:g id="name">%1$s</xliff:g>!</string>
+    <string name="tagline">Taskly's সেরা ফিচার</string>
+    <string name="sync">শেষ সিঙ্ক হয়েছে কিছুক্ষণ আগে</string>
+    <plurals name="tasks">
+        <item quantity="one">%dটি টাস্ক</item>
+        <item quantity="other">%dটি টাস্ক</item>
+    </plurals>
+    <string-array name="days">
+        <item>রবিবার</item>
+        <item>সোমবার</item>
+    </string-array>
+</resources>

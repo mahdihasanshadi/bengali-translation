@@ -1,0 +1,20 @@
+msgid ""
+msgstr ""
+"Language: bn\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Search"
+msgstr "খুঁজুন"
+
+#, fuzzy
+msgid "Welcome, %s!"
+msgstr "স্বাগতম, %s!"
+
+msgid "%d result"
+msgid_plural "%d results"
+msgstr[0] "%dটি ফলাফল"
+msgstr[1] "ফলাফল"
+
+msgid "Order #%(id)s has shipped"
+msgstr "অর্ডার #%(id)s পাঠানো হয়েছে"

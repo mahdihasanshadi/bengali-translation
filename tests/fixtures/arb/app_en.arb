@@ -1,0 +1,7 @@
+{
+  "@@locale": "en",
+  "greeting": "Hello {name}!",
+  "@greeting": { "description": "Home screen greeting", "placeholders": { "name": { "type": "String" } } },
+  "unread": "{count, plural, =0 {No new messages} one {1 new message} other {{count} new messages}}",
+  "@unread": { "placeholders": { "count": { "type": "int" } } }
+}

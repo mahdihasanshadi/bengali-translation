@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" target-language="bn-BD" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="welcome" datatype="html">
+        <source>Welcome back, <x id="INTERPOLATION" equiv-text="{{ name }}"/>!</source>
+        <target>আবার স্বাগতম, <x id="INTERPOLATION" equiv-text="{{ name }}"/>!</target>
+      </trans-unit>
+      <trans-unit id="logout" datatype="html">
+        <source>Log out</source>
+        <target>লগআউট</target>
+      </trans-unit>
+      <trans-unit id="items" datatype="html">
+        <source>You have <x id="INTERPOLATION"/> items</source>
+        <target>আপনার কাছে আইটেম আছে</target>
+      </trans-unit>
+      <trans-unit id="settings" datatype="html">
+        <source>Account settings</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

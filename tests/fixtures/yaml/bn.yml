@@ -1,0 +1,6 @@
+en:
+  nav:
+    home: "বাড়ি"
+    orders: "আমার অর্ডার"
+  checkout:
+    total: "মোট: %{amount}"

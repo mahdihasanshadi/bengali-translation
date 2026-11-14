@@ -1,0 +1,7 @@
+en:
+  nav:
+    home: "Home"
+    orders: "My orders"
+  checkout:
+    total: "Total: %{amount}"
+    pay: "Pay now"

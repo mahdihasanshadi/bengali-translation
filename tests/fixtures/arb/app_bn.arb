@@ -1,0 +1,7 @@
+{
+  "@@locale": "en",
+  "greeting": "হ্যালো {name}!",
+  "@greeting": { "description": "Home screen greeting", "placeholders": { "name": { "type": "String" } } },
+  "unread": "{count, বহুবচন, =0 {নতুন কোনো মেসেজ নেই} one {১টি নতুন মেসেজ} other {{count}টি নতুন মেসেজ}}",
+  "@unread": { "placeholders": { "count": { "type": "int" } } }
+}

@@ -1,0 +1,9 @@
+{
+  "cart": "{count, plural, one {# item} other {# items}} in your cart",
+  "cartWords": "{count, plural, one {{name} has one item} other {{name} has {count} items}}",
+  "invite": "{gender, select, male {He invited you} female {She invited you} other {They invited you}}",
+  "badKeys": "{count, plural, one {# file} other {# files}}",
+  "noOther": "{count, plural, one {# photo} other {# photos}}",
+  "selectKeys": "{role, select, admin {Admin panel} other {Dashboard}}",
+  "renamedArg": "{count, plural, one {# day left} other {# days left}}"
+}
