@@ -1,6 +1,6 @@
 ---
 name: translate-to-bengali
-description: Translate and localize websites, web apps and UI copy from English into natural, professional Bengali (Bangla, bn-BD / bn-IN). Use this skill whenever the user asks to translate, localize or add Bengali/Bangla to a website, landing page, app, i18n locale file (JSON, YAML, .po, .arb, .strings, XLIFF, strings.xml), HTML, Markdown/MDX, email template or marketing copy, and also when asked to review, fix or QA an existing Bengali translation, or to "add a Bangla version" or "make the site bilingual". It handles the hard parts that plain translation gets wrong - words whose meaning shifts in context, English terms Bengali speakers already use (written in Bengali script, e.g. লগইন, পাসওয়ার্ড), tone, spelling, numerals, dates, currency, placeholders, markup, fonts and Unicode - and ships a linter to verify the result.
+description: Translate and localize websites, web apps and UI copy from English into natural, professional Bengali (Bangla, bn-BD / bn-IN). Use this skill whenever the user asks to translate, localize or add Bengali/Bangla to a website, landing page, app, i18n locale file (JSON, YAML, .po, .arb, .strings, .xcstrings, XLIFF, strings.xml), HTML, Markdown/MDX, email template or marketing copy, and also when asked to review, fix or QA an existing Bengali translation, to "add a Bangla version", "make the site bilingual", wire a bn locale into an app, or update Bengali strings after the English changed. It handles the hard parts that plain translation gets wrong - words whose meaning shifts in context, English terms Bengali speakers already use (written in Bengali script, e.g. লগইন, পাসওয়ার্ড), tone, spelling, numerals, dates, currency, placeholders, markup, fonts and Unicode - and ships a linter to verify the result.
 ---
 
 # Translate a website into Bengali
@@ -41,6 +41,19 @@ still unclear, and otherwise state the default you used.
 | Digits | Bengali digits (০-৯) in prose, prices, counts and dates | Latin digits stay in codes, IDs, URLs, emails, version numbers, form input examples |
 | Acronyms | Stay in Latin (OTP, PDF, API, SMS, URL) | A few that are pronounced as words go into Bengali (সিম, পিন, এটিএম) |
 | Existing terms | Follow them | If the site already has Bengali strings or a glossary, match their choices unless they are plainly wrong, and say what you changed |
+
+Also identify the i18n setup: the framework, where the English strings live,
+and where the Bengali file must go (`references/frameworks.md` §1 has a
+lookup table). If the project has no i18n, or English is hard-coded in
+components, templates, emails or validation messages, that English will
+still show on the Bengali site however good the translation is. Search for
+it (`references/frameworks.md` §2) and tell the user what you found before
+translating; extract it into the locale files when they agree.
+
+If a Bengali translation already exists and the English has changed since,
+this is an **update**, not a new translation: translate only new and changed
+strings, delete removed ones, and leave the rest as they are
+(`references/frameworks.md` §6).
 
 ### 2. Read before translating
 
@@ -126,20 +139,48 @@ numbers and dates through `Intl`, SEO, and the CSS/font changes Bengali needs
 are in `references/technical.md`. Formats for numbers, money, dates, time,
 phone numbers and bn-BD vs bn-IN wording are in `references/formats-and-locale.md`.
 
+Then make sure the app actually serves it: register `bn` where the framework
+lists its locales, switch `<html lang>`, label the language switcher বাংলা,
+and load a Bengali font with the CSS fixes. Per-framework recipes (Next.js,
+i18next, Vue/Nuxt, Angular, Laravel, Django, Rails, WordPress, Flutter,
+Android, iOS, Shopify, static HTML) are in `references/frameworks.md` §3. If
+you are only asked for the file, list the wiring steps in the report instead
+of editing config.
+
+For more than a few hundred strings, work in batches: glossary first, then
+one namespace or file at a time, linting each batch before the next
+(`references/frameworks.md` §5).
+
 ### 6. Verify
 
 Run the bundled linter on what you produced, and fix every error and review
-every warning:
+every warning. `scripts/` is inside this skill's folder; use its full path
+when the working directory is the user's project.
 
 ```bash
-# source/target pair (JSON or .po): checks keys, placeholders, tags, plus all Bengali checks
+# source/target pair: keys, placeholders, ICU plurals, tags, links, plus all Bengali checks
+#   JSON, .arb, .yml/.yaml (needs PyYAML), Android strings.xml, iOS .strings, HTML pages
 python scripts/bn_lint.py --source locales/en.json --target locales/bn.json
+python scripts/bn_lint.py --source index.html --target bn/index.html
 
-# any single Bengali file (HTML, Markdown, text, YAML...): Bengali checks only
-python scripts/bn_lint.py --target-only public/bn/index.html
+# formats that hold both languages: .po/.pot, XLIFF, Xcode .xcstrings
+python scripts/bn_lint.py --target locale/bn/LC_MESSAGES/django.po
+
+# any other Bengali file (Markdown, MDX, PHP arrays, templates): Bengali checks only
+python scripts/bn_lint.py --target-only content/bn/about.md
 
 # options: --digits bn|latn|any   --tone apni|tumi   --glossary bn-glossary.json
+#          --fix (safe mechanical repairs in place)   --strict   --json
 ```
+
+`--fix` repairs only mechanical issues: decomposed vowel signs, a pipe used
+as দাঁড়ি, spacing around punctuation and টি, known misspellings, and digits per
+`--digits`. It never touches placeholders, tags, URLs or code. Run it, then
+read its list of changes; everything else is yours to fix by hand.
+
+In HTML pair mode the linter also flags a wrong `<html lang>`, changed links
+or attributes, and CSS that breaks Bengali (`letter-spacing`, tight
+`line-height`).
 
 The linter catches mechanical problems. It cannot judge meaning, so also do a
 **back-translation pass** on high-stakes strings - payments, pricing, legal
@@ -149,13 +190,19 @@ head, and compare with the source. If the two differ in any fact or obligation,
 fix the Bengali.
 
 Finally read the page top to bottom as a user would. Check that the same thing
-has the same name everywhere and that the voice does not wobble.
+has the same name everywhere and that the voice does not wobble. If you can
+run the app or open the page in a browser, look at the Bengali version at
+mobile and desktop widths: clipped glyphs, wrapped buttons and leftover
+English are easier to see than to predict.
 
 ### 7. Report
 
 End with a short report so the client can trust and maintain the work:
 
-- what was translated and where the files are;
+- what was translated and where the files are, and the linter result;
+- what you wired up (locale registration, `lang`, switcher, font), or the
+  steps still needed if you did not;
+- hard-coded English you found, and whether it was extracted;
 - the glossary decisions that matter (and any existing terms you changed);
 - strings you could not resolve from context, with the sense you assumed;
 - anything deliberately left in English and why;
@@ -187,7 +234,8 @@ These hold in every task, including quick ones.
   references, baseball metaphors) with a neutral equivalent that keeps the
   point, and mention that you did.
 - **Never break the build.** Output must stay valid in its file format, with
-  the same keys and placeholders as the source.
+  the same keys and placeholders as the source. Do not report the work as
+  finished while the linter still shows errors.
 - **Flag, do not guess, when stakes are high.** For legal, financial, medical
   or safety wording where you are unsure, translate carefully and flag it.
 - **Do not transliterate everything.** A page of English written in Bengali
@@ -231,6 +279,10 @@ A few anchors; the full tables are in the reference files.
   time, phone, addresses, units, and bn-BD vs bn-IN differences.
 - `references/technical.md` - file formats, what to translate in HTML, SEO,
   `Intl`, fonts, CSS for Bengali script, Unicode hygiene.
+- `references/frameworks.md` - detecting the i18n setup, finding hard-coded
+  strings, registering `bn` per framework, batching, keeping Bengali in sync,
+  CI. Read at step 1 and when wiring the locale in.
 - `references/sources.md` - the standards and style guides these rules follow.
-- `scripts/bn_lint.py` - the QA linter (no dependencies beyond Python 3.8+).
+- `scripts/bn_lint.py` - the QA linter and safe fixer (Python 3.8+, no
+  dependencies; PyYAML only for YAML files).
 - `assets/bn-glossary.template.json` - starting glossary to copy into a project.
