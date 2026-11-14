@@ -364,6 +364,43 @@ class BengaliChecks(TempDir):
         _, r = self.pair({"a": "Save 10 hours a week"}, {"a": "সপ্তাহে ১০ ঘণ্টা সময় বাঁচান"})
         self.assertEqual(messages(r, "a"), [])
 
+    def test_over_translation_of_everyday_english_words(self):
+        cases = [
+            ("Open map", "মানচিত্র খুলুন", "ম্যাপ"),
+            ("Log in", "প্রবেশ করুন", "লগইন"),
+            ("Make payment", "অর্থপ্রদান করুন", "পেমেন্ট"),
+            ("Free delivery", "ফ্রি বিতরণ", "ডেলিভারি"),
+            ("Install the app", "অ্যাপটি স্থাপন করুন", "ইনস্টল"),
+            ("Special offer", "বিশেষ প্রস্তাব", "অফার"),
+            ("Update now", "এখনই হালনাগাদ করুন", "আপডেট"),
+            ("Book now", "এখনই সংরক্ষণ করুন", "বুক"),
+        ]
+        for en, bn, said in cases:
+            _, r = self.pair({"a": en}, {"a": bn})
+            self.assertTrue(any(said in m for m in messages(r, "a")), (en, r["findings"]))
+
+    def test_natural_translations_are_not_flagged(self):
+        ok = [
+            ("Open map", "ম্যাপ খুলুন"),
+            ("Log in", "লগইন করুন"),
+            ("Your location", "আপনার অবস্থান"),            # either works
+            ("Notifications", "বিজ্ঞপ্তি"),                # either works
+            ("Search", "খুঁজুন"),                          # translate bucket
+            ("Save your work", "আপনার কাজ সংরক্ষণ করুন"),   # save data, not a booking
+            ("Delivery address", "ডেলিভারির ঠিকানা"),
+        ]
+        for en, bn in ok:
+            _, r = self.pair({"a": en}, {"a": bn})
+            self.assertEqual(messages(r, "a"), [], (en, bn))
+
+    def test_glossary_can_choose_the_bengali_word(self):
+        g = self.write("g.json", json.dumps({"update": "হালনাগাদ"}, ensure_ascii=False))
+        _, r = self.pair({"a": "Update now"}, {"a": "এখনই হালনাগাদ করুন"}, "--glossary", g)
+        self.assertEqual(messages(r, "a"), [])
+
+    def test_bookish_words_flagged_even_without_source(self):
+        self.assertTrue(any("ব্লুটুথ" in m for _, m in self.check("নীলদন্ত চালু করুন")))
+
     def test_css_checks(self):
         found = []
         bn_lint.check_css("p { letter-spacing: 0; line-height: 1.6 }", lambda s, m: found.append(m))

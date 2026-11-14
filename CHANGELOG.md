@@ -6,6 +6,18 @@ All notable changes to this project are listed here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- Over-translation check: in pair mode the linter warns when an everyday
+  English term is replaced by a Bengali coinage people don't use in apps
+  (Map → মানচিত্র instead of ম্যাপ, Payment → অর্থপ্রদান, Install → স্থাপন,
+  Offer → প্রস্তাব, about 55 terms). A project glossary can choose the Bengali
+  word instead.
+- More bookish coinages flagged in every mode (নীলদন্ত, কুঞ্জিপট, পর্দাচিত্র...).
+- Glossary: devices, maps and connectivity terms (ম্যাপ, ব্লুটুথ, নেটওয়ার্ক,
+  স্টোরেজ...), app actions (ইনস্টল, রিসেট, সিঙ্ক...), and more "either works"
+  pairs (লোকেশন/অবস্থান, নোটিফিকেশন/বিজ্ঞপ্তি...).
+
 ## [1.1.0] - 2026-11-14
 
 ### Added

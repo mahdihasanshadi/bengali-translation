@@ -91,6 +91,11 @@ explaining this screen to a customer out loud. Use the word they would say. If
 the "pure" Bengali word would make them pause or sound like a textbook,
 transliterate. If the English word would sound like showing off, translate.
 
+Over-translation is the failure users notice most: মানচিত্র for "Map",
+অর্থপ্রদান for "Payment", হালনাগাদ for "Update" are correct dictionary Bengali
+that no Bangladeshi app uses. When unsure, transliterate the established
+English word. The linter flags these against the English source.
+
 Transliteration has standard spellings; do not invent them. Read
 `references/loanwords.md` for the spelling rules (Bangla Academy rules for
 foreign words) and a ready glossary of ~250 web terms. Read

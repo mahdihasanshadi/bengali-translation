@@ -134,6 +134,40 @@ Use these exact spellings.
 | backup | ব্যাকআপ |
 | template | টেমপ্লেট |
 | format | ফরম্যাট |
+| install / uninstall | ইনস্টল / আনইনস্টল |
+| reset | রিসেট |
+| refresh / reload | রিফ্রেশ / রিলোড |
+| restart | রিস্টার্ট |
+| sync | সিঙ্ক |
+| screenshot | স্ক্রিনশট |
+| storage | স্টোরেজ |
+| inbox | ইনবক্স |
+| spam | স্প্যাম |
+| block / unblock | ব্লক / আনব্লক |
+| emoji / sticker | ইমোজি / স্টিকার |
+| zoom | জুম |
+| scroll | স্ক্রল |
+| OTP | OTP (keep Latin) |
+
+### Devices, maps and connectivity
+| English | Bengali |
+|---|---|
+| map | ম্যাপ |
+| Google Maps | Google Maps (brand, keep Latin) |
+| GPS | GPS |
+| Wi-Fi | Wi-Fi (or ওয়াই-ফাই) |
+| Bluetooth | ব্লুটুথ |
+| network | নেটওয়ার্ক |
+| signal | সিগন্যাল |
+| computer / laptop | কম্পিউটার / ল্যাপটপ |
+| tablet | ট্যাবলেট |
+| keyboard / mouse | কিবোর্ড / মাউস |
+| printer | প্রিন্টার |
+| battery / charger | ব্যাটারি / চার্জার |
+| hardware | হার্ডওয়্যার |
+| camera | ক্যামেরা |
+| headphone | হেডফোন |
+| SIM | সিম |
 
 ### Commerce and payments
 | English | Bengali |
@@ -153,6 +187,7 @@ Use these exact spellings.
 | balance | ব্যালেন্স |
 | cashback | ক্যাশব্যাক |
 | recharge | রিচার্জ |
+| cash in / cash out | ক্যাশ ইন / ক্যাশ আউট |
 | refund | রিফান্ড |
 | invoice | ইনভয়েস |
 | coupon | কুপন |
@@ -286,6 +321,16 @@ column is friendlier and more conversational; the second is more formal.
 | status | স্ট্যাটাস | অবস্থা |
 | submit | সাবমিট করুন | জমা দিন |
 | print | প্রিন্ট করুন | মুদ্রণ করুন (avoid in UI) |
+| location | লোকেশন | অবস্থান |
+| notification | নোটিফিকেশন | বিজ্ঞপ্তি |
+| feature | ফিচার | বৈশিষ্ট্য |
+| version | ভার্সন | সংস্করণ |
+| review | রিভিউ | পর্যালোচনা |
+| rating | রেটিং | মূল্যায়ন |
+| size | সাইজ | আকার |
+| stock | স্টক | মজুদ |
+| page | পেজ | পৃষ্ঠা |
+| live | লাইভ | সরাসরি |
 
 Rule of thumb: consumer apps, e-commerce and youth brands lean conversational;
 government, banking, legal and educational sites lean formal. Do not mix the two
@@ -312,3 +357,25 @@ These appear in dictionaries and machine translation but not in real products.
 | ঠেলাগাড়ি, গাড়ি (for cart) | কার্ট |
 | প্রতিচ্ছবি (for image/icon) | ছবি / আইকন |
 | পরিষেবা (in bn-BD) | সেবা / সার্ভিস |
+| মানচিত্র (for a map in an app or site) | ম্যাপ |
+| অর্থপ্রদান | পেমেন্ট |
+| হালনাগাদ (in app UI) | আপডেট |
+| উপাত্ত | ডেটা |
+| বিতরণ (for delivery) | ডেলিভারি |
+| প্রস্তাব (for a deal or sale offer) | অফার |
+| সংরক্ষণ (for a booking) | বুকিং |
+| স্থাপন (for install) | ইনস্টল |
+| পুনরারম্ভ, পুনঃস্থাপন, সমলয় | রিস্টার্ট, রিসেট, সিঙ্ক |
+| কোমলাংশ, কঠিনাংশ | সফটওয়্যার, হার্ডওয়্যার |
+| নীলদন্ত | ব্লুটুথ |
+| কুঞ্জিপট, চাবিফলক | কিবোর্ড |
+| পর্দাচিত্র | স্ক্রিনশট |
+| মুদ্রণযন্ত্র | প্রিন্টার |
+| এককালীন পাসওয়ার্ড | OTP |
+| গ্রাহক হোন (for subscribe) | সাবস্ক্রাইব করুন |
+
+The linter flags these: the ones that are never right in UI text in any mode,
+and the context-dependent ones (মানচিত্র, বিতরণ, প্রস্তাব…) when the English
+source contains the matching word. A project that deliberately prefers a
+Bengali word (a government site choosing হালনাগাদ, say) records it in
+`bn-glossary.json`, and the linter then accepts it.

@@ -229,12 +229,81 @@ MISSPELLINGS = [
 # words that only need a whole-word match (a prefix match would hit valid words)
 WHOLE_WORD_ONLY = {"এপস", "টীম", "ফ্রী", "প্লান", "কারন", "মুল্য", "লিষ্ট", "ষ্টার"}
 
+# Coinages that are wrong in UI text whatever the English said (checked in every mode)
 BOOKISH = [
     ("গুপ্তসংকেত", "পাসওয়ার্ড"), ("গুপ্তশব্দ", "পাসওয়ার্ড"),
-    ("অন্তর্জাল", "ইন্টারনেট"), ("মুঠোফোন", "মোবাইল"),
-    ("বৈদ্যুতিন", "ইমেইল / ইলেকট্রনিক"), ("গণকযন্ত্র", "কম্পিউটার"),
+    ("অন্তর্জাল", "ইন্টারনেট"), ("আন্তর্জাল", "ইন্টারনেট"), ("মুঠোফোন", "মোবাইল"),
+    ("দূরালাপনী", "ফোন / মোবাইল"), ("বৈদ্যুতিন", "ইমেইল / ইলেকট্রনিক"),
+    ("গণকযন্ত্র", "কম্পিউটার"), ("সংগণক", "কম্পিউটার"), ("কোমলাংশ", "সফটওয়্যার"),
+    ("কঠিনাংশ", "হার্ডওয়্যার"), ("নীলদন্ত", "ব্লুটুথ"), ("কুঞ্জিপট", "কিবোর্ড"),
+    ("চাবিফলক", "কিবোর্ড"), ("পর্দাচিত্র", "স্ক্রিনশট"), ("অর্থপ্রদান", "পেমেন্ট"),
+    ("পুনর্ভরণ", "রিচার্জ"), ("মুদ্রণযন্ত্র", "প্রিন্টার"), ("পত্রাধার", "ফোল্ডার"),
+    ("পরিস্রাবক", "ফিল্টার"), ("ভাবপ্রতীক", "ইমোজি"), ("সংযোগসূত্র", "লিংক"),
     ("বোতাম", "বাটন"), ("ঠেলাগাড়ি", "কার্ট"), ("অনুগ্রহপূর্বক", "(drop, or অনুগ্রহ করে)"),
     ("প্রবেশ করান", "লিখুন / দিন"), ("স্বাক্ষর করুন", "লগইন করুন (if this is 'Sign in')"),
+]
+BOOKISH_STEMS = {w for w, _ in BOOKISH}
+
+# Over-translation: English words Bangladeshis already say in English, so the UI
+# writes them in Bengali script (Map -> ম্যাপ). Checked in pair mode only, when
+# the English source contains the word. Only Bengali renderings that are clearly
+# worse in UI text are listed; where a native word is equally common (অবস্থান for
+# location, বিজ্ঞপ্তি for notification) both are accepted and nothing is flagged.
+# A project glossary that chooses the Bengali word overrides this list.
+# (English regex, what people say, over-translated stems)
+OVER_TRANSLATIONS = [
+    (r"\blog ?in\b|\bsign ?in\b", "লগইন", ["প্রবেশ করুন", "প্রবেশ করতে"]),
+    (r"\blog ?out\b|\bsign ?out\b", "লগআউট", ["প্রস্থান"]),
+    (r"\bpasswords?\b", "পাসওয়ার্ড", ["সংকেতশব্দ"]),
+    (r"\baccounts?\b", "অ্যাকাউন্ট", ["হিসাব"]),
+    (r"\be-?mails?\b", "ইমেইল", ["ই-ডাক", "বৈদ্যুতিন ডাক"]),
+    (r"\bmaps?\b", "ম্যাপ", ["মানচিত্র"]),
+    (r"\bdownload", "ডাউনলোড", ["অবতরণ", "নামিয়ে নিন", "নামিয়ে নেওয়া"]),
+    (r"\bupload", "আপলোড", ["উত্তোলন", "ঊর্ধ্বভরণ"]),
+    (r"\bupdate", "আপডেট", ["হালনাগাদ"]),
+    (r"\bapps?\b", "অ্যাপ", ["প্রয়োগ"]),
+    (r"\bmobile\b|\bphone\b", "মোবাইল / ফোন", ["মুঠোযন্ত্র"]),
+    (r"\bservers?\b", "সার্ভার", ["পরিবেশক"]),
+    (r"\bbrowsers?\b", "ব্রাউজার", ["বিচরক", "ব্রাউজকারী"]),
+    (r"\bscreens?\b", "স্ক্রিন", ["পর্দা"]),
+    (r"\bicons?\b", "আইকন", ["প্রতিচ্ছবি"]),
+    (r"\bsettings\b", "সেটিংস", ["বিন্যাস"]),
+    (r"\bprofiles?\b", "প্রোফাইল", ["পরিলেখ", "রূপরেখা"]),
+    (r"\bdata\b", "ডেটা", ["উপাত্ত"]),
+    (r"\bdelivery\b", "ডেলিভারি", ["বিতরণ"]),
+    (r"\boffers?\b", "অফার", ["প্রস্তাব"]),
+    (r"\bwallet\b", "ওয়ালেট", ["মানিব্যাগ"]),
+    (r"\brecharge", "রিচার্জ", ["পুনঃভরণ"]),
+    (r"\bcash ?back\b", "ক্যাশব্যাক", ["নগদ ফেরত"]),
+    (r"\bcash ?out\b", "ক্যাশ আউট", ["নগদ উত্তোলন"]),
+    (r"\btrack", "ট্র্যাক", ["অনুসরণ"]),
+    (r"\bbooking\b|\bbook (?:now|a|an|your|tickets?)\b", "বুক / বুকিং", ["সংরক্ষণ"]),
+    (r"\bsubscribe", "সাবস্ক্রাইব", ["গ্রাহক হোন", "গ্রাহকভুক্ত"]),
+    (r"\bsubscription", "সাবস্ক্রিপশন", ["চাঁদা"]),
+    (r"\bchat", "চ্যাট", ["আলাপন"]),
+    (r"\bvideos?\b", "ভিডিও", ["চলচ্চিত্র", "চলমান চিত্র"]),
+    (r"\bbackup", "ব্যাকআপ", ["সংরক্ষিত অনুলিপি"]),
+    (r"\bcopy\b", "কপি", ["অনুলিপি"]),
+    (r"\bpaste\b", "পেস্ট", ["সাঁটুন", "লেপন"]),
+    (r"\btemplates?\b", "টেমপ্লেট", ["ছাঁচ"]),
+    (r"\bfilters?\b", "ফিল্টার", ["ছাঁকনি"]),
+    (r"\bdark mode\b", "ডার্ক মোড", ["অন্ধকার মোড"]),
+    (r"\binstall", "ইনস্টল", ["স্থাপন"]),
+    (r"\breset\b", "রিসেট", ["পুনঃস্থাপন", "পুনর্বিন্যাস"]),
+    (r"\brefresh", "রিফ্রেশ", ["সতেজ", "পুনর্নবীকরণ"]),
+    (r"\brestart", "রিস্টার্ট", ["পুনরারম্ভ", "পুনরায় আরম্ভ"]),
+    (r"\bsync", "সিঙ্ক", ["সমলয়", "সমকালীন"]),
+    (r"\bOTP\b|\bone[- ]time password\b", "OTP", ["এককালীন পাসওয়ার্ড"]),
+    (r"\binbox\b", "ইনবক্স", ["আগত বার্তা"]),
+    (r"\bspam\b", "স্প্যাম", ["অযাচিত"]),
+    (r"\bblock", "ব্লক", ["অবরুদ্ধ", "অবরোধ"]),
+    (r"\bstickers?\b", "স্টিকার", ["আঠা"]),
+    (r"\bbattery\b", "ব্যাটারি", ["বিদ্যুৎকোষ"]),
+    (r"\bnetwork", "নেটওয়ার্ক", ["জালিকা"]),
+    (r"\bstorage\b", "স্টোরেজ", ["ভাণ্ডার", "সঞ্চয়স্থান"]),
+    (r"\bzoom", "জুম", ["বিবর্ধন"]),
+    (r"\bscroll", "স্ক্রল", ["গুটান", "গুটিয়ে"]),
+    (r"\bwi-?fi\b", "Wi-Fi / ওয়াই-ফাই", ["তারবিহীন"]),
 ]
 
 # (regex on the English source, wrong-sense Bengali stems, hint)
@@ -396,7 +465,7 @@ def check_bengali(text: str, opts, add, source: str = "") -> None:
             add("warning", f"spelling: '{wrong}' → '{right}'" + (f" ({note})" if note else ""))
     for wrong, right in BOOKISH:
         if bn_prefix(wrong).search(text):
-            add("warning", f"bookish or wrong-sense term '{wrong}'; consider '{right}'")
+            add("warning", f"bookish term '{wrong}' that nobody uses in apps; use '{right}'")
     for w in SADHU:
         if bn_word(w).search(text):
             add("warning", f"সাধু form '{w}'; use চলিত")
@@ -487,6 +556,16 @@ def check_pair(src, tgt, opts, add, glossary) -> None:
             for b in bad:
                 if bn_prefix(b).search(tgt):
                     add("warning", f"possible wrong sense: '{b}' for /{en_rx}/; {hint}")
+                    break
+    chosen = {o for v in glossary.values() for o in (v if isinstance(v, list) else [v])}
+    for en_rx, said, bad in OVER_TRANSLATIONS:
+        if re.search(en_rx, src_plain, re.I):
+            for b in bad:
+                if b in BOOKISH_STEMS or any(b in c for c in chosen):
+                    continue  # reported as bookish already, or the project chose it
+                if bn_prefix(b).search(tgt):
+                    add("warning", f"over-translated: '{b}'; people say '{said}' - keep the English "
+                                   "word, written in Bengali script (or choose it in the glossary)")
                     break
     src_nums = sorted(to_latin_digits(n) for n in re.findall(r"[0-9০-৯]+", src_plain))
     tgt_nums = sorted(to_latin_digits(n) for n in re.findall(r"[0-9০-৯]+", tgt_plain))
