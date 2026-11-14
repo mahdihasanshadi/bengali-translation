@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: landing-page-html
+expected_outcome: |
+  index.bn.html is a complete, valid copy of the page with all visible text and the title, meta description, alt and placeholder attributes in natural Bengali, lang set to bn or bn-BD, the brand Taskly and all URLs, classes and the email address untouched, marketing lines rewritten idiomatically rather than literally, million converted to লাখ, and a note about fonts/CSS (letter-spacing, uppercase, line-height) plus items for client sign-off.
+context:
+  scaffold_script: place-files.sh

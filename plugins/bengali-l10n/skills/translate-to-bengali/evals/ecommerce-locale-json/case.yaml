@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: ecommerce-locale-json
+expected_outcome: |
+  A bn.json with exactly the same keys as en.json, valid JSON, natural Bangladeshi Bengali in the আপনি voice. Established loanwords are transliterated (কার্ট, অর্ডার, লগইন, পাসওয়ার্ড, ডেলিভারি), context-dependent words take the right sense (Home is হোম, 'Save 20%' is a discount), placeholders, the ICU plural block and the <a href> tag survive unchanged, prices use ৳ with Bengali digits, and the reply ends with a short report of glossary choices and anything flagged.
+context:
+  scaffold_script: place-files.sh

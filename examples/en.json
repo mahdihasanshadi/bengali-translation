@@ -1,0 +1,16 @@
+{
+  "nav": { "home": "Home", "products": "Products", "contact": "Contact us" },
+  "auth": {
+    "signIn": "Sign in",
+    "forgot": "Forgot password?",
+    "welcome": "Welcome back, {name}!"
+  },
+  "cart": {
+    "empty": "Your cart is empty",
+    "items": "{count, plural, one {# item} other {# items}} in your cart",
+    "freeShipping": "Free shipping on orders over ৳1,000",
+    "save": "Save 20% today"
+  },
+  "errors": { "generic": "Something went wrong. Please try again.", "email": "Invalid email address" },
+  "footer": { "terms": "By continuing you agree to our <a href=\"/terms\">Terms</a>." }
+}

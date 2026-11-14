@@ -1,0 +1,23 @@
+{
+  "nav": { "home": "Home", "shop": "Shop", "deals": "Deals", "account": "My account", "contact": "Contact us" },
+  "hero": { "title": "Everything you need, delivered fast", "subtitle": "Join 2.5 million happy shoppers on ShopNao.", "cta": "Shop now" },
+  "auth": {
+    "signIn": "Sign in",
+    "signUp": "Sign up for free",
+    "emailLabel": "Enter your email",
+    "passwordHint": "Password must be at least 8 characters",
+    "forgot": "Forgot password?",
+    "welcome": "Welcome back, {name}!"
+  },
+  "product": { "addToCart": "Add to cart", "outOfStock": "Out of stock", "left": "Only {count} left", "save": "Save 20% today", "reviews": "Customer reviews" },
+  "cart": {
+    "empty": "Your cart is empty",
+    "items": "{count, plural, one {# item} other {# items}} in your cart",
+    "freeShipping": "Free shipping on orders over ৳1,000",
+    "checkout": "Checkout",
+    "total": "Total: {total}"
+  },
+  "order": { "placed": "Your order has been placed successfully.", "eta": "Estimated delivery: {date}", "track": "Track order", "cod": "Cash on delivery" },
+  "errors": { "generic": "Oops! Something went wrong. Please try again.", "email": "Invalid email address", "required": "This field is required" },
+  "footer": { "terms": "By continuing you agree to our <a href=\"/terms\">Terms and Conditions</a>.", "rights": "© 2026 ShopNao. All rights reserved." }
+}

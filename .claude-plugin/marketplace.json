@@ -1,0 +1,12 @@
+{
+  "name": "bengali-l10n",
+  "description": "Skills for Bengali (Bangla) website and app localization",
+  "owner": { "name": "Tangim" },
+  "plugins": [
+    {
+      "name": "bengali-l10n",
+      "source": "./plugins/bengali-l10n",
+      "description": "Translate websites and apps from English into natural, professional Bengali, with glossary, style rules and a QA linter"
+    }
+  ]
+}

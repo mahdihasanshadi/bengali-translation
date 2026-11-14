@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: review-existing-translation
+expected_outcome: |
+  A corrected bn.json plus a review listing concrete problems: the translated/damaged placeholder and ICU keyword (the likely crash), the pipe used as a full stop, mixed আপনি/তুমি, wrong-sense words (বাড়ি for Home, গাড়ি for cart, অবৈধ for invalid, স্বাক্ষর for sign in), bookish গুপ্তসংকেত, misspellings (ডেলিভারী, একাউন্ট, শর্তাবলী), mixed digits and the changed href. The linter is run on the fixed file and comes back without errors.
+context:
+  scaffold_script: place-files.sh
