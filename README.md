@@ -1,6 +1,6 @@
 # translate-to-bengali
 
-[![CI](https://github.com/shadi46/bengali-website-translation/actions/workflows/ci.yml/badge.svg)](https://github.com/shadi46/bengali-website-translation/actions/workflows/ci.yml)
+[![CI](https://github.com/mahdihasanshadi/bengali-translation/actions/workflows/ci.yml/badge.svg)](https://github.com/mahdihasanshadi/bengali-translation/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 An agent skill that translates and localizes websites and apps from **English
@@ -33,7 +33,7 @@ This skill is built to prevent each of them:
 ### Claude Code (plugin marketplace)
 
 ```bash
-claude plugin marketplace add shadi46/bengali-website-translation
+claude plugin marketplace add mahdihasanshadi/bengali-translation
 claude plugin install bengali-l10n@bengali-l10n
 ```
 
@@ -42,17 +42,17 @@ This installs the skill and three slash commands.
 ### Claude Code (copy the skill folder)
 
 ```bash
-git clone https://github.com/shadi46/bengali-website-translation.git
+git clone https://github.com/mahdihasanshadi/bengali-translation.git
 # for yourself, in every project:
-cp -r bengali-website-translation/plugins/bengali-l10n/skills/translate-to-bengali ~/.claude/skills/
+cp -r bengali-translation/plugins/bengali-l10n/skills/translate-to-bengali ~/.claude/skills/
 # or for one project, shared with your team through git:
-cp -r bengali-website-translation/plugins/bengali-l10n/skills/translate-to-bengali your-project/.claude/skills/
+cp -r bengali-translation/plugins/bengali-l10n/skills/translate-to-bengali your-project/.claude/skills/
 ```
 
 ### claude.ai and Claude Cowork
 
 Download `translate-to-bengali.skill` from the
-[latest release](https://github.com/shadi46/bengali-website-translation/releases/latest)
+[latest release](https://github.com/mahdihasanshadi/bengali-translation/releases/latest)
 and upload it under Settings → Capabilities → Skills.
 
 ### Other agents
@@ -254,7 +254,7 @@ Claude Cowork, claude.ai এবং `SKILL.md` সমর্থন করে এ�
 ইনস্টল করতে:
 
 ```bash
-claude plugin marketplace add shadi46/bengali-website-translation
+claude plugin marketplace add mahdihasanshadi/bengali-translation
 claude plugin install bengali-l10n@bengali-l10n
 ```
 
