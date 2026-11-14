@@ -6,6 +6,8 @@ All notable changes to this project are listed here. The format follows
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-11-14
+
 ### Added
 
 - Over-translation check: in pair mode the linter warns when an everyday
@@ -17,11 +19,6 @@ All notable changes to this project are listed here. The format follows
 - Glossary: devices, maps and connectivity terms (ম্যাপ, ব্লুটুথ, নেটওয়ার্ক,
   স্টোরেজ...), app actions (ইনস্টল, রিসেট, সিঙ্ক...), and more "either works"
   pairs (লোকেশন/অবস্থান, নোটিফিকেশন/বিজ্ঞপ্তি...).
-
-## [1.1.0] - 2026-11-14
-
-### Added
-
 - Linter pair mode for Flutter `.arb`, YAML (Rails/Hugo/Jekyll; needs PyYAML),
   Android `strings.xml`, iOS `.strings` (UTF-8 and UTF-16) and HTML pages.
 - Linter single-file mode for XLIFF 1.2/2.0 and Xcode String Catalogs
