@@ -1,8 +1,10 @@
 {
   "name": "bengali-l10n",
-  "description": "Translate and localize websites and apps from English into natural, professional Bengali (Bangla), with a QA linter.",
+  "description": "Translate and localize websites and apps from English into natural, professional Bengali (Bangla): a translation skill, /bn-translate, /bn-review and /bn-sync commands, and a QA linter with safe auto-fix.",
   "version": "1.1.0",
   "author": { "name": "Tangim" },
+  "homepage": "https://github.com/shadi46/bengali-website-translation",
+  "repository": "https://github.com/shadi46/bengali-website-translation",
   "license": "MIT",
-  "keywords": ["bengali", "bangla", "translation", "localization", "i18n", "l10n"]
+  "keywords": ["bengali", "bangla", "translation", "localization", "i18n", "l10n", "bn-BD", "bn-IN"]
 }

@@ -1,0 +1,49 @@
+name: Language correction
+description: A wrong, unnatural or outdated Bengali word, spelling or rule
+title: "[language] "
+labels: ["language"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you! Corrections from native speakers and translators are the most valuable contribution to this project.
+  - type: input
+    id: english
+    attributes:
+      label: English source
+      description: The English string, and where it appears (button, error message, headline...).
+      placeholder: '"Save 20% today" on a product banner'
+    validations:
+      required: true
+  - type: input
+    id: current
+    attributes:
+      label: Current Bengali
+      description: What the skill or linter produces or recommends now.
+      placeholder: আজ ২০% সংরক্ষণ করুন
+    validations:
+      required: true
+  - type: input
+    id: suggested
+    attributes:
+      label: Suggested Bengali
+      placeholder: আজই ২০% ছাড়
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why
+      description: Meaning, register, spelling rule or usage. Link a source if you have one (Bangla Academy, a dictionary, an established product).
+    validations:
+      required: true
+  - type: dropdown
+    id: region
+    attributes:
+      label: Region
+      options:
+        - Both / general
+        - Bangladesh (bn-BD)
+        - West Bengal / India (bn-IN)
+    validations:
+      required: true

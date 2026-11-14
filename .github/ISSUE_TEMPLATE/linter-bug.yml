@@ -1,0 +1,41 @@
+name: Linter bug
+description: bn_lint.py crashed, missed a problem, or flagged something correct
+title: "[linter] "
+labels: ["linter"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What happened
+      options:
+        - False positive (flagged something that is correct)
+        - Missed problem (should have been flagged)
+        - Crash or wrong output
+        - --fix changed something it should not have
+    validations:
+      required: true
+  - type: textarea
+    id: input
+    attributes:
+      label: Minimal input
+      description: The smallest source and target strings or file snippets that show the problem.
+      render: json
+    validations:
+      required: true
+  - type: input
+    id: command
+    attributes:
+      label: Command
+      placeholder: python bn_lint.py --source en.json --target bn.json --digits bn
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Output
+      render: text
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      placeholder: bn_lint 1.1.0 (python bn_lint.py --version), Python 3.12, Windows 11
