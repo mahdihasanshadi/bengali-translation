@@ -1,0 +1,29 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Hello, %@!" : {
+      "localizations" : {
+        "bn" : { "stringUnit" : { "state" : "translated", "value" : "হ্যালো, %@!" } }
+      }
+    },
+    "cart.count" : {
+      "localizations" : {
+        "en" : {
+          "variations" : { "plural" : {
+            "one" : { "stringUnit" : { "state" : "translated", "value" : "%lld item" } },
+            "other" : { "stringUnit" : { "state" : "translated", "value" : "%lld items" } }
+          } }
+        },
+        "bn" : {
+          "variations" : { "plural" : {
+            "one" : { "stringUnit" : { "state" : "translated", "value" : "%lldটি আইটেম" } },
+            "other" : { "stringUnit" : { "state" : "needs_review", "value" : "আইটেম" } }
+          } }
+        }
+      }
+    },
+    "Settings" : { "localizations" : { } },
+    "Taskly" : { "shouldTranslate" : false }
+  },
+  "version" : "1.0"
+}

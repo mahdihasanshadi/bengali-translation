@@ -259,6 +259,29 @@ class Formats(unittest.TestCase):
         self.assertTrue(has(r, "settings", "empty translation", "error"))
         self.assertEqual(messages(r, "welcome"), [])
 
+    def test_xcstrings(self):
+        code, r = run("--target", FIX / "xcstrings" / "Localizable.xcstrings")
+        self.assertEqual(code, 1)
+        self.assertEqual(messages(r, "Hello, %@!"), [])
+        self.assertEqual(messages(r, "cart.count[plural:one]"), [])
+        self.assertTrue(has(r, "cart.count[plural:other]", "needs_review"))
+        self.assertTrue(has(r, "cart.count[plural:other]", "missing %lld", "error"))
+        self.assertTrue(has(r, "Settings", "no Bengali", "error"))
+        self.assertNotIn("Taskly", [f["where"] for f in r["findings"]])
+
+    def test_vue_i18n_pipe_plurals_are_not_full_stops(self):
+        tmp = Path(tempfile.mkdtemp())
+        try:
+            (tmp / "en.json").write_text('{"car": "no car | one car | {n} cars"}', encoding="utf-8")
+            t = tmp / "bn.json"
+            t.write_text('{"car": "কোনো গাড়ি নেই | একটি গাড়ি | {n}টি গাড়ি"}', encoding="utf-8")
+            code, r = run("--source", tmp / "en.json", "--target", t, "--fix")
+            self.assertEqual(code, 0, r["findings"])
+            self.assertIn(" | ", t.read_text(encoding="utf-8"))
+            self.assertEqual(r["fixed"], [])
+        finally:
+            shutil.rmtree(tmp)
+
     def test_po(self):
         code, r = run("--target", FIX / "po" / "bn.po")
         self.assertEqual(code, 1)

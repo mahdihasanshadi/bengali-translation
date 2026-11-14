@@ -13,6 +13,7 @@ Single-file formats carry both languages, so --target alone is enough:
 
     python bn_lint.py --target bn.po            gettext .po / .pot
     python bn_lint.py --target app.bn.xlf       XLIFF 1.2 and 2.0
+    python bn_lint.py --target Localizable.xcstrings   Xcode String Catalog
 
 Target-only mode runs the Bengali checks on any text file (Markdown, MDX,
 plain text, templates ...), line by line, skipping fenced code blocks:
@@ -94,7 +95,8 @@ PLACEHOLDER_PATTERNS = [
     r"%\{[A-Za-z_]\w*\}",                      # %{name}   (Rails, Ruby)
     r"%<[A-Za-z_]\w*>[sdif]",                  # %<name>s  (Ruby format)
     r"%\([A-Za-z_]\w*\)[sdif]",                # %(name)s
-    r"%(?:\d+\$)?[-+0 #]*\d*(?:\.\d+)?[sdifuxXc@]",  # %s %d %1$s %.2f %@
+    # %s %d %1$s %.2f %@ %lld - no space flag, or "20% today" would read as a placeholder
+    r"%(?:\d+\$)?[-+0#]*\d*(?:\.\d+)?(?:hh|h|ll|l|q|z|j)?[sdifuxXc@]",
     r"\$t\([^)]*\)",                           # $t(key)
     r"@:[\w.]+",                               # @:linked.key (vue-i18n)
     r"&(?:[a-zA-Z]+|#\d+|#x[0-9a-fA-F]+);",    # HTML entities
@@ -306,7 +308,8 @@ CHECKS_TEXT = [
     ("error", re.compile(r"\u09C7\u09BE"), "decomposed ো (ে + া); normalize to NFC (U+09CB)"),
     ("error", re.compile(r"\u09C7\u09D7"), "decomposed ৌ (ে + ৗ); normalize to NFC (U+09CC)"),
     ("error", re.compile("\uFFFD"), "replacement character U+FFFD: text was corrupted by an encoding error"),
-    ("error", re.compile(f"[{BN}]\\s?\\|(?:\\s|$)"), "pipe '|' used as a full stop; use দাঁড়ি '।' (U+0964)"),
+    ("error", re.compile(f"[{BN}]\\s?\\|\\s*$"), "pipe '|' used as a full stop; use দাঁড়ি '।' (U+0964)"),
+    ("warning", re.compile(f"[{BN}]\\s?\\|\\s+(?=\\S)"), "pipe '|' between Bengali words; if it is a full stop use দাঁড়ি '।' (ignore for vue-i18n plural syntax 'one | other')"),
     ("error", re.compile(f"(?:^|(?<=[\\s(\\[\"'“‘>]))[{DEPENDENT}]"), "a vowel sign or mark starts a word; the text is damaged"),
     ("error", re.compile("\u09CD\u09CD"), "doubled হসন্ত"),
     ("error", re.compile(f"(?<![{BN}{ZWJ}{ZWNJ}])র\u09CDয"), "word-initial র্য renders as a reph; write র + ZWJ(U+200D) + ্য (র‍্য)"),
@@ -351,8 +354,12 @@ def check_css(text: str, add) -> None:
                            "and below the line); use about 1.5-1.7 for :lang(bn)")
 
 
-def check_bengali(text: str, opts, add) -> None:
-    """Checks that need only the Bengali text. `add(severity, message)`."""
+def check_bengali(text: str, opts, add, source: str = "") -> None:
+    """Checks that need only the Bengali text. `add(severity, message)`.
+
+    `source` is the English string when known; a pipe that is already in the
+    source is syntax (vue-i18n plurals, separators), not a misused full stop.
+    """
     for sev, rx, msg in CHECKS_TEXT:
         if msg.startswith("Latin-1"):
             m = rx.search(text)
@@ -361,8 +368,8 @@ def check_bengali(text: str, opts, add) -> None:
             continue
         if not BN_LETTER.search(text):
             continue
-        if msg.startswith("pipe") and text.count("|") >= 2:
-            continue  # a Markdown table row, not a sentence
+        if msg.startswith("pipe") and (text.count("|") >= 2 or "|" in source):
+            continue  # a Markdown table row or plural syntax, not a sentence
         m = rx.search(text)
         if m:
             add(sev, f"{msg}  […{text[max(0, m.start() - 8): m.end() + 8]}…]")
@@ -499,7 +506,7 @@ def check_pair(src, tgt, opts, add, glossary) -> None:
             if not any(o in tgt for o in options):
                 add("warning", f"glossary: '{en}' should be '{options[0]}'")
 
-    check_bengali(tgt, opts, add)
+    check_bengali(tgt, opts, add, source=src)
 
 
 # --------------------------------------------------------------------------
@@ -636,6 +643,44 @@ def load_xliff(path: Path, notes: list) -> list:
                 entries.append((label, inner_xml(src), inner_xml(tgt)))
     if lang and not lang.lower().startswith("bn"):
         notes.append(("lang", f"target language is '{lang}', expected bn / bn-BD / bn-IN"))
+    return entries
+
+
+def load_xcstrings(path: Path, notes: list, lang: str = "bn") -> list:
+    """Xcode String Catalog. Return [(label, source, target or None, state)]."""
+    text, _ = read_text(path)
+    try:
+        data = json.loads(text)
+    except json.JSONDecodeError as e:
+        raise LoadError(f"invalid JSON in {path.name}: {e}")
+    src_lang = data.get("sourceLanguage", "en")
+
+    def units(node, suffix=""):
+        out = {}
+        if not isinstance(node, dict):
+            return out
+        if isinstance(node.get("stringUnit"), dict):
+            out[suffix] = (node["stringUnit"].get("value", ""), node["stringUnit"].get("state", ""))
+        for kind, variants in (node.get("variations") or {}).items():
+            for name, sub in (variants or {}).items():
+                out.update(units(sub, f"{suffix}[{kind}:{name}]"))
+        return out
+
+    entries = []
+    for key, item in (data.get("strings") or {}).items():
+        if not isinstance(item, dict) or item.get("shouldTranslate") is False:
+            continue
+        locs = item.get("localizations") or {}
+        src = units(locs.get(src_lang)) or {"": (key, "")}
+        tgt = units(locs.get(lang)) if lang in locs else {}
+        base = src.get("", next(iter(src.values())))[0]
+        for suffix in sorted(set(src) | set(tgt)):
+            if suffix in tgt:
+                value, state = tgt[suffix]
+                s = src.get(suffix, (base, ""))[0]
+                entries.append((key + suffix, s, value, state))
+            elif not (suffix and re.search(r":(?:zero|two|few|many)\]$", suffix)):
+                entries.append((key + suffix, src[suffix][0], None, ""))
     return entries
 
 
@@ -836,7 +881,8 @@ FIX_RULES = [
     ("removed doubled হসন্ত", re.compile("\u09CD\u09CD"), "\u09CD"),
     ("added ZWJ to word-initial র্য (র‍্য)", re.compile(f"(?<![{BN}{ZWJ}{ZWNJ}])র\u09CD(?=য)"), "র\u200d\u09CD"),
     ("ত্ at word end → ৎ", re.compile("ত\u09CD(?=[\\s।,?!:;)\"”’]|$)"), "ৎ"),
-    ("pipe '|' → দাঁড়ি '।'", re.compile(f"([{BN}])\\s?\\|(?=\\s|$)"), "\\1।"),
+    # only a pipe that ends the string: a pipe mid-string may be vue-i18n plural syntax
+    ("pipe '|' → দাঁড়ি '।'", re.compile(f"([{BN}])\\s?\\|(?=\\s*$)"), "\\1।"),
     ("removed space before punctuation", re.compile(f"([{BN}])\\s+([।,?!;])"), "\\1\\2"),
     ("collapsed repeated দাঁড়ি", re.compile("।{2,}"), "।"),
     ("added space after দাঁড়ি", re.compile(f"।(?=[{BN}A-Za-z])"), "। "),
@@ -1082,6 +1128,17 @@ def run_lint(opts, adder, glossary) -> int:
             adder(tpath.name)("warning", msg)
         for label, src, tgt in entries:
             check_pair(src, tgt, opts, adder(label), glossary)
+        return len(entries)
+    if ext == ".xcstrings":
+        entries = load_xcstrings(tpath, [])
+        for label, src, tgt, state in entries:
+            add = adder(label)
+            if tgt is None:
+                add("error", "no Bengali (bn) localization")
+                continue
+            if state in ("needs_review", "new", "stale"):
+                add("warning", f"Bengali localization state is '{state}'")
+            check_pair(src, tgt, opts, add, glossary)
         return len(entries)
     if not opts.source:
         raise UsageError(f"{tpath.name}: give the English file with --source "
